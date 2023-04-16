@@ -17,7 +17,7 @@ public class CreateDroneResponse {
 
     private String serialNumber;
     private Model model;
-    private double weight ;
+    private double weightLimit ;
     private String dateCreated;
 
 }

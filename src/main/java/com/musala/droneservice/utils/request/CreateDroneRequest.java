@@ -15,7 +15,7 @@ public class CreateDroneRequest {
 
     private String serialNumber;
     private Model model;
-    private double weight ;
-    private double batteryCapacity;
+    private double weightLimit ;
+    private double batteryCapacityPercentage;
     private State state;
 }

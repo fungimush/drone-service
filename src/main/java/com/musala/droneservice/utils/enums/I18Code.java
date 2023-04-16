@@ -6,6 +6,10 @@ public enum I18Code {
 
     MESSAGE_UNEXPECTED_ERROR("messages.unexpected.error.occurred"),
     MESSAGE_RECORD_ALREADY_EXIST("messages.record.already.exists"),
+
+    MESSAGE_RECORD_INVALID_SERIAL_NUMBER("messages.record.invalid.serial.number"),
+
+    MESSAGE_RECORD_INVALID_WEIGHT("messages.record.invalid.weight"),
     MESSAGE_RECORD_CREATED_SUCCESSFULLY("messages.record.created.successfully"),
     MESSAGE_RECORD_NOT_FOUND("messages.record.not.found"),
     MESSAGE_RECORD_UPDATED_SUCCESSFULLY("messages.record.updated.successfully"),

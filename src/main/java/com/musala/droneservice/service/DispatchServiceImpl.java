@@ -43,6 +43,20 @@ public class DispatchServiceImpl implements DispatchService {
                     HttpStatus.CONFLICT.value()
             );
 
+        if (createDroneRequest.getSerialNumber().length() > 100){
+            throw new ServiceException(
+            messageService.getMessage(I18Code.MESSAGE_RECORD_INVALID_SERIAL_NUMBER.getCode(), new String[]{"Serial number can not have more than 100 characters"}, locale),
+                    HttpStatus.CONFLICT.value()
+            );
+        }
+
+        if(createDroneRequest.getWeightLimit()> 500){
+            throw new ServiceException(
+                    messageService.getMessage(I18Code.MESSAGE_RECORD_INVALID_WEIGHT.getCode(), new String[]{"Weight can not be more than 500gr"}, locale),
+                    HttpStatus.CONFLICT.value()
+            );
+        }
+
         Drone newDrone = mapper.map(createDroneRequest, Drone.class);
         Drone savedDrone = dispatchRepository.save(newDrone);
         logger.info(">>> Drone with Serial Number::{} registered successfully", savedDrone.getSerialNumber());

@@ -22,9 +22,16 @@ public class Drone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String serialNumber;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 30, nullable = false)
     private Model model;
-    private double weight ;
-    private double batteryCapacity;
+
+    private double weightLimit;
+    private double batteryCapacityPercentage;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 30, nullable = false)
     private State state;
     private String dateCreated;
     @PrePersist
