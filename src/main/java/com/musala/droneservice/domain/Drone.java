@@ -5,6 +5,7 @@ import com.musala.droneservice.utils.enums.State;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -25,5 +26,10 @@ public class Drone {
     private double weight ;
     private double batteryCapacity;
     private State state;
+    private String dateCreated;
+    @PrePersist
+    private void init() {
+        this.dateCreated = LocalDateTime.now().toString();
+    }
 }
 
