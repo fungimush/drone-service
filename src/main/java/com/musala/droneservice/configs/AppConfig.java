@@ -1,8 +1,11 @@
 package com.musala.droneservice.configs;
 
 import com.musala.droneservice.repository.DispatchRepository;
+import com.musala.droneservice.repository.MedicationRepository;
 import com.musala.droneservice.service.DispatchService;
 import com.musala.droneservice.service.DispatchServiceImpl;
+import com.musala.droneservice.service.MedicationService;
+import com.musala.droneservice.service.MedicationServiceImpl;
 import com.musala.droneservice.utils.i18.MessageService;
 import com.musala.droneservice.utils.i18.MessageServiceImpl;
 import io.swagger.v3.oas.models.ExternalDocumentation;
@@ -16,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.client.RestTemplate;
-
 import java.time.Duration;
 
 
@@ -65,5 +67,11 @@ public class AppConfig {
     public DispatchService dispatchService(DozerBeanMapper mapper, DispatchRepository dispatchRepository, MessageService messageService) {
         return new DispatchServiceImpl( mapper, dispatchRepository, messageService);
     }
+
+    @Bean
+    public MedicationService medicationService(DozerBeanMapper mapper, MedicationRepository medicationRepository, MessageService messageService) {
+        return new MedicationServiceImpl( mapper, medicationRepository, messageService);
+    }
+
 
 }

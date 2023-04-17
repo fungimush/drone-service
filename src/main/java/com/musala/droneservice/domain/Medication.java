@@ -4,6 +4,7 @@ package com.musala.droneservice.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -22,4 +23,14 @@ public class Medication {
     private double weight;
     private String code;
     //private Image image;
+    private String dateCreated;
+
+    private String dateLastUpdated;
+    @PrePersist
+    private void init() {
+
+        this.dateCreated = LocalDateTime.now().toString();
+        this.dateLastUpdated = LocalDateTime.now().toString();
+    }
+
 }
