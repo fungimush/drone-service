@@ -17,10 +17,10 @@ public enum I18Code {
     MESSAGE_RECORDS_FETCHED_SUCCESSFULLY("messages.records.fetched.successfully"),
     MESSAGE_RECORD_FETCHED_SUCCESSFULLY("messages.record.fetched.successfully"),
     MESSAGE_RECORD_LOADED_SUCCESSFULLY("messages.record.loaded.successfully"),
-
     MESSAGE_RECORD_NOT_LOADED("message.record.not.loaded"),
-
-    MESSAGE_RECORD_INVALID_STATE("message.record.invalid.state");
+    MESSAGE_RECORD_INVALID_STATE("message.record.invalid.state"),
+    MESSAGE_RECORDS_EXCEEDS_FLEET_LIMIT("message.records.exceeds.fleet.limit"),
+    MESSAGE_RECORD_WEIGHT_CAN_NOT_EXCEED_DRONE_WEIGHT_LIMIT("message.record.weight.can.not.exceed.drone.weight.limit");
 
     private String code;
 

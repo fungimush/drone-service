@@ -42,6 +42,17 @@ public class DispatchServiceImpl implements DispatchService {
 
     @Override
     public ApiResponse<?> create(CreateDroneRequest createDroneRequest, Locale locale) throws Exception {
+
+        // Check Number of Drones Registered
+        List<Drone> drones = dispatchRepository.findAll();
+        Long NumberOfDrones = drones.stream().count();
+        logger.info(">>> Number of Drones registered ::{}", NumberOfDrones);
+        if(NumberOfDrones==10){
+            throw new ServiceException(
+                    messageService.getMessage(I18Code.MESSAGE_RECORDS_EXCEEDS_FLEET_LIMIT.getCode(), new String[]{"Number of Drones"}, locale),
+                    HttpStatus.CONFLICT.value()
+            );
+        }
         Optional<Drone> droneWithSerialNumber = dispatchRepository.findDroneBySerialNumber(createDroneRequest.getSerialNumber());
         if (droneWithSerialNumber.isPresent())
             throw new ServiceException(
@@ -123,6 +134,7 @@ public class DispatchServiceImpl implements DispatchService {
 
     @Override
     public ApiResponse<?> loadMedication(CreateLoadMedicationRequest createLoadMedicationRequest, Locale locale) throws Exception {
+        //Check if the Drone is present
         Optional<Drone> droneWithId = dispatchRepository.findById(createLoadMedicationRequest.getDroneId());
         if (!droneWithId.isPresent())
             throw new ServiceException(
@@ -130,29 +142,66 @@ public class DispatchServiceImpl implements DispatchService {
                     HttpStatus.CONFLICT.value(
                     ));
 
-        //TO DO
-        ///Check if it is possible to load a loading  or loaded drone
+        //Check if the drone is in the correct state to be loaded
         Drone drone = dispatchRepository.findById(createLoadMedicationRequest.getDroneId()).get();
-        if(!((drone.getState().equals(State.IDLE))|(drone.getState().equals(State.LOADED)))){
+        if(!((drone.getState().equals(State.IDLE))|(drone.getState().equals(State.LOADING))|(drone.getState().equals(State.LOADED)))){
             throw new ServiceException(
                     messageService.getMessage(I18Code.MESSAGE_RECORD_INVALID_STATE.getCode(), new String[]{"Drone in"}, locale),
                     HttpStatus.CONFLICT.value(
                     ));
         }
 
+                //check drone weight
+                double droneWeight = drone.getWeightLimit();
+                logger.info(">>> Drone weight limit is ::{}", droneWeight);
 
-        List<Medication> moreMedication = droneWithId.get().getMedication();
-            for (Long medicationId : createLoadMedicationRequest.getMedicationIds()) {
-                Medication medication = medicationRepository.findById(medicationId).
-                        orElseThrow(() -> new ServiceException(
-                                messageService.getMessage(I18Code.MESSAGE_RECORD_NOT_FOUND.getCode(), new String[]{Medication.class.getSimpleName()}, locale),
-                                HttpStatus.NOT_FOUND.value())
-                        );
-                moreMedication.add(medication);
-            }
+                //Check the current total weight of already loaded medicine
+                double medicationWeight = 0.0;
+                List<Medication> medicationAlreadyLoaded = drone.getMedication();
+
+              //getting a list of medications on drone
+               for(Medication medication : medicationAlreadyLoaded) {
+                   medicationWeight = medicationWeight + medication.getWeight();
+                   logger.info(">>> Current total medicine Weight is ::{}", medicationWeight);
+               }
+//
+                //Check is existing loaded medicine is still below drone weight
+                //If total medication wait is less than drone wait add more medicines up to the drone weight limit
+                //Else you can not add more medicine
+
+                 if( !(medicationWeight < droneWeight)){
+                    throw new ServiceException(
+                            messageService.getMessage(I18Code.MESSAGE_RECORD_WEIGHT_CAN_NOT_EXCEED_DRONE_WEIGHT_LIMIT.getCode(), new String[]{Medication.class.getSimpleName()}, locale),
+                            HttpStatus.CONFLICT.value(
+                            ));
+                }
+
+                // Adding more medications and checking weight limit
+                List<Medication> moreMedication = droneWithId.get().getMedication();
+
+                    for (Long medicationId : createLoadMedicationRequest.getMedicationIds()) {
+                        Medication medication = medicationRepository.findById(medicationId).
+                                orElseThrow(() -> new ServiceException(
+                                        messageService.getMessage(I18Code.MESSAGE_RECORD_NOT_FOUND.getCode(), new String[]{Medication.class.getSimpleName()}, locale),
+                                        HttpStatus.NOT_FOUND.value())
+                                );
+                        medicationWeight = medicationWeight + medication.getWeight();
+                        logger.info(">>> Medication Weight after adding another medication is:: {}", medicationWeight);
+                        if(!(medicationWeight < droneWeight)){
+
+                            logger.info(">>> Medication Weight:: {} exceeds drone wait ::{} cant add this medicine", medicationWeight, droneWeight);
+                            break;
+                        }
+                        moreMedication.add(medication);
+
+                    }
+
 
             droneWithId.get().setMedication(moreMedication);
+            droneWithId.get().setState(State.LOADING);
+            logger.info(">>> Drone with Serial Number::{} is in loading state", droneWithId);
             droneWithId.get().setState(State.LOADED);
+            logger.info(">>> Drone with Serial Number::{} is in loaded state", droneWithId);
             dispatchRepository.save(droneWithId.get());
             logger.info(">>> Drone with Serial Number::{}", droneWithId);
            CreateLoadMedicationResponse createLoadMedicationResponse=new CreateLoadMedicationResponse();

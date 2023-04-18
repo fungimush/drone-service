@@ -21,7 +21,7 @@ public class ScheduledTaskService {
     //private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 600000)
     public void execute() {
 
         List<Drone> drones = dispatchRepository.findAll();
