@@ -31,7 +31,7 @@ public class AppConfig {
         return new OpenAPI()
                 .info(new Info().title("Drone-Service for Medications API")
                         .description("Drone-Service application documentation")
-                        .version("v1.0")
+                        .version("v3.0")
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")))
                 .externalDocs(new ExternalDocumentation()
                         .description("Garage Wiki Documentation")
@@ -64,8 +64,8 @@ public class AppConfig {
     }
 
     @Bean
-    public DispatchService dispatchService(DozerBeanMapper mapper, DispatchRepository dispatchRepository, MessageService messageService) {
-        return new DispatchServiceImpl( mapper, dispatchRepository, messageService);
+    public DispatchService dispatchService(DozerBeanMapper mapper, DispatchRepository dispatchRepository, MedicationRepository medicationRepository, MessageService messageService) {
+        return new DispatchServiceImpl( mapper, dispatchRepository, medicationRepository, messageService);
     }
 
     @Bean

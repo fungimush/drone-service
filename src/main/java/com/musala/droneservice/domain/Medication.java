@@ -22,7 +22,7 @@ public class Medication {
     private String name;
     private double weight;
     private String code;
-    //private Image image;
+    private String imageName;
     private String dateCreated;
 
     private String dateLastUpdated;

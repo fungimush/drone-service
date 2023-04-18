@@ -2,6 +2,7 @@ package com.musala.droneservice.api;
 
 import com.musala.droneservice.utils.exceptions.ServiceException;
 import com.musala.droneservice.utils.response.ApiResponse;
+import com.musala.droneservice.utils.response.MessageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -11,8 +12,11 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
+import java.util.Set;
+
 
 @org.springframework.web.bind.annotation.ControllerAdvice
 public class ControllerAdvice {
@@ -31,6 +35,23 @@ public class ControllerAdvice {
         LOGGER.info("exception thrown ---> ", e);
         return new ResponseEntity<>(new ApiResponse.ApiResponseBuilder<>("Something went wrong").build(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ResponseBody
+    @ExceptionHandler ({ConstraintViolationException.class})
+    public ResponseEntity<Object> handleConstraintViolationException( ConstraintViolationException e) {
+
+        LOGGER.info("exception thrown ---> ", e);
+
+            Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
+            StringBuilder strBuilder = new StringBuilder();
+            for (ConstraintViolation<?> violation : violations ) {
+                strBuilder.append(violation.getMessage());
+                strBuilder.append(" & ");
+            }
+            strBuilder.deleteCharAt(strBuilder.lastIndexOf("&"));
+            return new ResponseEntity<>(new MessageResponse(strBuilder.toString()),HttpStatus.BAD_REQUEST);
+    }
+
 
     @ResponseBody
     @ExceptionHandler(value = {HttpRequestMethodNotSupportedException.class})

@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Getter
@@ -15,6 +16,7 @@ public class MedicationDto {
     private String name;
     private double weight;
     private String code;
-    //private Image image;
+    private String imageName;
     private String dateCreated;
+    private MultipartFile multipartFile;
 }
