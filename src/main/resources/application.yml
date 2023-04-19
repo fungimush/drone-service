@@ -1,35 +1,35 @@
-## Database properties
-server:
-  port: 8081
-spring:
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database: mysql
-    show-sql: false
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-  datasource:
-    username: root
-    password: '#Eugine123'
-    url: jdbc:mysql://localhost:3306/drone_service_application_db?autoReconnect=true&createDatabaseIfNotExist=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowLoadLocalInfile=true&allowPublicKeyRetrieval=true
-    type: com.zaxxer.hikari.HikariDataSource
-    hikari:
-      maximum-pool-size: 400
-      idle-timeout: 30000
-      minimum-idle: 20
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  sql:
-    init:
-      mode: always
-logging:
-  level:
-    root: INFO
-    org:
-      springframework: ERROR
-      hibernate: ERROR
-    com.musala.droneservice: DEBUG
-  pattern:
-    file: '%d - %-5level %logger{36} - %msg%n'
-    console:  '%d - %-5level %logger{36} - %msg%n'
-  file:
-    name: /Users/fmushaninga/DroneService/logs/drone-application.log
+### Database properties
+#server:
+#  port: 8081
+#spring:
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    database: mysql
+#    show-sql: false
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#  datasource:
+#    username: root
+#    password: '#Eugine123'
+#    url: jdbc:mysql://localhost:3306/drone_service_application_db?autoReconnect=true&createDatabaseIfNotExist=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowLoadLocalInfile=true&allowPublicKeyRetrieval=true
+#    type: com.zaxxer.hikari.HikariDataSource
+#    hikari:
+#      maximum-pool-size: 400
+#      idle-timeout: 30000
+#      minimum-idle: 20
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  sql:
+#    init:
+#      mode: always
+#logging:
+#  level:
+#    root: INFO
+#    org:
+#      springframework: ERROR
+#      hibernate: ERROR
+#    com.musala.droneservice: DEBUG
+#  pattern:
+#    file: '%d - %-5level %logger{36} - %msg%n'
+#    console:  '%d - %-5level %logger{36} - %msg%n'
+#  file:
+#    name: /Users/fmushaninga/DroneService/logs/drone-application.log

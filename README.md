@@ -19,6 +19,8 @@ To access the in-memory H2 database, go to: http://localhost:8081/h2-console
 
 # Assumptions Made:
 
-You can load more medications in an IDLE, LOADING & LOADING state
+    1.You can load more medications in an IDLE, LOADING & LOADING state
+    2.Medications are registered separately and added to drones using their ids
+    3.You can add medications with the same ID to the same drone 
 
 

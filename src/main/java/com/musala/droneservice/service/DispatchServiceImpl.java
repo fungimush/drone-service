@@ -140,6 +140,7 @@ public class DispatchServiceImpl implements DispatchService {
 
     @Override
     public ApiResponse<?> loadMedication(CreateLoadMedicationRequest createLoadMedicationRequest, Locale locale) throws Exception {
+        boolean exceedWeightLimit = false;
         //Check if the Drone is present
         Optional<Drone> droneWithId = dispatchRepository.findById(createLoadMedicationRequest.getDroneId());
         if (!droneWithId.isPresent())
@@ -209,7 +210,7 @@ public class DispatchServiceImpl implements DispatchService {
             medicationWeight = medicationWeight + medication.getWeight();
             logger.info(">>> Medication Weight after adding another medication is:: {}", medicationWeight);
             if (!(medicationWeight < droneWeight)) {
-
+                exceedWeightLimit = Boolean.TRUE;
                 logger.info(">>> Medication Weight:: {} exceeds drone weight:: {} cant add this medicine", medicationWeight, droneWeight);
                 break;
             }
@@ -228,13 +229,19 @@ public class DispatchServiceImpl implements DispatchService {
         createLoadMedicationResponse.setDateCreated(LocalDateTime.now().toString());
         createLoadMedicationResponse.setId(droneWithId.get().getId());
         createLoadMedicationResponse.setState(State.LOADED);
+        String message;
+
+        if (exceedWeightLimit) {
+            message = "Medication Weight " + medicationWeight+ " exceeds drone weight " +droneWeight+ " cant add more medicine";
+        } else {
+            message = messageService.getMessage(I18Code.MESSAGE_RECORD_LOADED_SUCCESSFULLY.getCode(), new String[]{Drone.class.getSimpleName()}, locale);
+        }
 
         return new ApiResponse
-                .ApiResponseBuilder<>(messageService.getMessage(I18Code.MESSAGE_RECORD_LOADED_SUCCESSFULLY.getCode(), new String[]{Drone.class.getSimpleName()}, locale))
+                .ApiResponseBuilder<>(message)
                 .setData(createLoadMedicationResponse)
                 .build();
     }
-
 
     @Override
     public ApiResponse<?> findLoadedDroneBySerialNumber(String serialNumber, Locale locale) throws ServiceException {
