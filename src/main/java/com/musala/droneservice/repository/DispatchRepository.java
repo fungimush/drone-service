@@ -7,13 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+
 @Repository
-public interface DispatchRepository extends JpaRepository <Drone, Long> {
+public interface DispatchRepository extends JpaRepository<Drone, Long> {
 
     Optional<Drone> findById(Long id);
 
-    Optional<Drone> findDroneBySerialNumber (String serialNumber);
+    Optional<Drone> findDroneBySerialNumber(String serialNumber);
 
-    List<Drone> findDroneByState (State state);
+    List<Drone> findDroneByState(State state);
 
 }

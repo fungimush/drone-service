@@ -1,22 +1,30 @@
 package com.musala.droneservice.api.dtos;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
+import javax.persistence.Transient;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
-@Data
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
+@JsonInclude(NON_NULL)
 public class MedicationDto {
 
-    private Long id;
+
     private String name;
     private double weight;
     private String code;
     private String imageName;
-    private String dateCreated;
-    private MultipartFile multipartFile;
+
+    @Transient
+    public String getImagePath() {
+        if (imageName == null || code == null) return null;
+
+        return "/MedicationImages/" + code + "/" + imageName;
+    }
+
 }

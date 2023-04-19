@@ -14,7 +14,6 @@ public class MedicationResponse {
     private String name;
     private double weight;
     private String code;
-    //private Image image;
     private String dateCreated;
 
     private String dateLastUpdated;

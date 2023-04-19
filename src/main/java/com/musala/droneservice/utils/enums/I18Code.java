@@ -4,6 +4,8 @@ public enum I18Code {
 
     MESSAGE_INVALID_REQUEST("messages.invalid.request.supplied"),
 
+    MESSAGE_INVALID_CODE("messages.invalid.code.supplied"),
+
     MESSAGE_UNEXPECTED_ERROR("messages.unexpected.error.occurred"),
     MESSAGE_RECORD_ALREADY_EXIST("messages.record.already.exists"),
 
@@ -20,7 +22,9 @@ public enum I18Code {
     MESSAGE_RECORD_NOT_LOADED("message.record.not.loaded"),
     MESSAGE_RECORD_INVALID_STATE("message.record.invalid.state"),
     MESSAGE_RECORDS_EXCEEDS_FLEET_LIMIT("message.records.exceeds.fleet.limit"),
-    MESSAGE_RECORD_WEIGHT_CAN_NOT_EXCEED_DRONE_WEIGHT_LIMIT("message.record.weight.can.not.exceed.drone.weight.limit");
+    MESSAGE_RECORD_WEIGHT_EXCEEDS_LIMIT("message.record.weight.exceeds.limit"),
+
+    MESSAGE_RECORD_BATTERY_LOW("message.record.battery.low");
 
     private String code;
 

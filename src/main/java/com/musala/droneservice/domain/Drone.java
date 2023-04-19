@@ -25,7 +25,8 @@ public class Drone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min =1, max = 100, message = " Serial number can not be more than 100 characters ")
+    @Size(min = 1, max = 100, message = " Serial number can not be more than 100 characters ")
+    @Column(length = 100)
     private String serialNumber;
 
     @Enumerated(EnumType.STRING)
@@ -33,8 +34,8 @@ public class Drone {
     private Model model;
 
 
-    @Min(value = 0, message="Weight can not be below 0")
-    @Max(value = 500, message="Weight can not be above 500gr")
+    @Min(value = 0, message = "Weight can not be below 0")
+    @Max(value = 500, message = "Weight can not be above 500gr")
     private double weightLimit;
     private double batteryCapacityPercentage;
 
@@ -55,6 +56,7 @@ public class Drone {
     )
 
     private List<Medication> medication;
+
     @PrePersist
     private void init() {
 

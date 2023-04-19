@@ -33,4 +33,3 @@ logging:
     console:  '%d - %-5level %logger{36} - %msg%n'
   file:
     name: /Users/fmushaninga/DroneService/logs/drone-application.log
-    com.musala.droneservice:

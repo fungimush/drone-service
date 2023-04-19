@@ -13,5 +13,5 @@ public class UpdateMedicationRequest {
     private String name;
     private double weight;
     private String code;
-    //private Image image;
+
 }

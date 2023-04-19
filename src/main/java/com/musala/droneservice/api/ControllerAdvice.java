@@ -12,6 +12,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
@@ -37,19 +38,19 @@ public class ControllerAdvice {
     }
 
     @ResponseBody
-    @ExceptionHandler ({ConstraintViolationException.class})
-    public ResponseEntity<Object> handleConstraintViolationException( ConstraintViolationException e) {
+    @ExceptionHandler({ConstraintViolationException.class})
+    public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
 
         LOGGER.info("exception thrown ---> ", e);
 
-            Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
-            StringBuilder strBuilder = new StringBuilder();
-            for (ConstraintViolation<?> violation : violations ) {
-                strBuilder.append(violation.getMessage());
-                strBuilder.append(" & ");
-            }
-            strBuilder.deleteCharAt(strBuilder.lastIndexOf("&"));
-            return new ResponseEntity<>(new MessageResponse(strBuilder.toString()),HttpStatus.BAD_REQUEST);
+        Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
+        StringBuilder strBuilder = new StringBuilder();
+        for (ConstraintViolation<?> violation : violations) {
+            strBuilder.append(violation.getMessage());
+            strBuilder.append(" & ");
+        }
+        strBuilder.deleteCharAt(strBuilder.lastIndexOf("&"));
+        return new ResponseEntity<>(new MessageResponse(strBuilder.toString()), HttpStatus.BAD_REQUEST);
     }
 
 

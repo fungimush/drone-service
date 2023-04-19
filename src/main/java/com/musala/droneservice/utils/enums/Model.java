@@ -9,7 +9,9 @@ public enum Model {
 
     private String droneModel;
 
-    private Model(final String droneModel) { this.droneModel = droneModel; }
+    private Model(final String droneModel) {
+        this.droneModel = droneModel;
+    }
 
     public String getDroneModel() {
         return droneModel;

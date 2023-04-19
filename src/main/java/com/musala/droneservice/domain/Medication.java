@@ -2,6 +2,7 @@ package com.musala.droneservice.domain;
 
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,15 +23,22 @@ public class Medication {
     private String name;
     private double weight;
     private String code;
+
+    @Column(nullable = true, length = 64)
     private String imageName;
     private String dateCreated;
-
     private String dateLastUpdated;
-    @PrePersist
-    private void init() {
 
-        this.dateCreated = LocalDateTime.now().toString();
-        this.dateLastUpdated = LocalDateTime.now().toString();
+    @PrePersist
+    public void init() {
+        dateCreated = LocalDateTime.now().toString();
     }
 
+    @PreUpdate
+    public void update() {
+        dateLastUpdated = LocalDateTime.now().toString();
+    }
 }
+
+
+

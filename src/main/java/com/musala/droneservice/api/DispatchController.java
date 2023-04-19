@@ -1,6 +1,5 @@
 package com.musala.droneservice.api;
 
-
 import com.musala.droneservice.service.DispatchService;
 import com.musala.droneservice.utils.Constants.Constants;
 import com.musala.droneservice.utils.exceptions.ServiceException;
@@ -53,15 +52,15 @@ public class DispatchController {
     @GetMapping("/allDrones")
     public ResponseEntity<DispatchApiResponse<?>> getAllDrones() {
         log.info(">>> request to fetch all Drones");
-        DispatchApiResponse<?> response= DispatchApiResponse.builder().statusCode(HttpStatus.OK.toString()).message("Drones fetched successfully").success(true).data(dispatchService.getAllDrones()).build();
+        DispatchApiResponse<?> response = DispatchApiResponse.builder().statusCode(HttpStatus.OK.toString()).message("Drones fetched successfully").success(true).data(dispatchService.getAllDrones()).build();
         return ResponseEntity.ok(response);
     }
 
 
     @PostMapping(path = "/{load-medications}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ApiResponse<?>> loadMedication(@Valid @RequestBody final CreateLoadMedicationRequest createLoadMedicationRequest,
-                                                 @RequestHeader(value = Constants.LOCALE_LANGUAGE,
-                                                         defaultValue = Constants.DEFAULT_LOCALE) final Locale locale) throws Exception {
+                                                         @RequestHeader(value = Constants.LOCALE_LANGUAGE,
+                                                                 defaultValue = Constants.DEFAULT_LOCALE) final Locale locale) throws Exception {
         log.info(">>> request to load medication on a drone {}", createLoadMedicationRequest.toString());
         return new ResponseEntity<>(dispatchService.loadMedication(createLoadMedicationRequest, locale), HttpStatus.CREATED);
     }
@@ -69,31 +68,31 @@ public class DispatchController {
 
     @GetMapping(value = "/loaded-medication/{serialNumber}")
     public ResponseEntity<ApiResponse<?>> findDroneBySerialNumber(@PathVariable(value = "serialNumber") final String serialNumber,
-                                                                             @RequestHeader(value = Constants.LOCALE_LANGUAGE,
-                                                                                     defaultValue = Constants.DEFAULT_LOCALE) final Locale locale) throws ServiceException {
+                                                                  @RequestHeader(value = Constants.LOCALE_LANGUAGE,
+                                                                          defaultValue = Constants.DEFAULT_LOCALE) final Locale locale) throws ServiceException {
 
         log.info(">>> request to fetch loaded medication for a given drone:: {}", serialNumber);
         CreateDroneRequest request = new CreateDroneRequest();
         request.setSerialNumber(serialNumber);
-        return ResponseEntity.ok(dispatchService.findLoadedDroneBySerialNumber(request.getSerialNumber(),locale));
+        return ResponseEntity.ok(dispatchService.findLoadedDroneBySerialNumber(request.getSerialNumber(), locale));
     }
 
     @GetMapping("/availableDrones")
     public ResponseEntity<DispatchApiResponse<?>> findAvailableDrones() {
         log.info(">>> request to fetch all available Drones");
-        DispatchApiResponse<?> response= DispatchApiResponse.builder().statusCode(HttpStatus.OK.toString()).message("Available Drones fetched successfully").success(true).data(dispatchService.findAvailableDrones()).build();
+        DispatchApiResponse<?> response = DispatchApiResponse.builder().statusCode(HttpStatus.OK.toString()).message("Available Drones fetched successfully").success(true).data(dispatchService.findAvailableDrones()).build();
         return ResponseEntity.ok(response);
     }
 
     @GetMapping(value = "/droneBatteryLevel/{serialNumber}")
     public ResponseEntity<ApiResponse<?>> findDroneBatteryLevel(@PathVariable(value = "serialNumber") final String serialNumber,
-                                                                  @RequestHeader(value = Constants.LOCALE_LANGUAGE,
-                                                                          defaultValue = Constants.DEFAULT_LOCALE) final Locale locale) throws ServiceException {
+                                                                @RequestHeader(value = Constants.LOCALE_LANGUAGE,
+                                                                        defaultValue = Constants.DEFAULT_LOCALE) final Locale locale) throws ServiceException {
 
         log.info(">>> request to fetch battery level for a given drone:: {}", serialNumber);
         CreateDroneRequest request = new CreateDroneRequest();
         request.setSerialNumber(serialNumber);
-        return ResponseEntity.ok(dispatchService.findDroneBatteryLevel(request.getSerialNumber(),locale));
+        return ResponseEntity.ok(dispatchService.findDroneBatteryLevel(request.getSerialNumber(), locale));
     }
 
 }
